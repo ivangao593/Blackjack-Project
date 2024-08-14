@@ -24,6 +24,7 @@ class Player:
         deck.remove(card)
     
     def update_value(self):
+        self.hand_value = 0
         ace_count = 0
         for c in self.hand:
             v = c.split(" ")
@@ -85,12 +86,14 @@ print("Dealing Cards...")
 
 dealer.hit()
 dealer.hit()
+dealer.update_value()
 dealer_public = [dealer.hand[0], "Mystery Card"]
 print(dealer.name + "'s Hand: " + str(dealer_public))
 
 for player in pList:
     player.hit()
     player.hit()
+    player.update_value()
     print(player.name + "'s Hand: ", end="")
     print(player.show_hand(), end="")
     print(" Hand Value = " + str(player.hand_value))
@@ -119,19 +122,19 @@ for player in pList:
             if player.hand_value == 21:
                 player.win = True
                 winning_players.append(player)
-                print(player.name + "has won")
+                print(player.name + " has won")
             if player.hand_value > 21:
                 player.bust = True
                 losing_players.append(player)
                 print(player.name + " has busted")
+        print("--------------------")
 
 # Dealer's turn
 if len(standed_players) != 0:
-    print("--------------------")
     print("Dealer's Turn")
     print(dealer.name + "'s Hand: ", end = "")
-    print(dealer.show_hand(), end="")
-    print(dealer.hand_value)
+    print(dealer.show_hand())
+    print("Hand Value: " + str(dealer.hand_value))
     while dealer.hand_value <= 16:
         print("Dealer Hits")
         dealer.hit()
@@ -152,6 +155,7 @@ if len(standed_players) != 0:
                 winning_players.append(p)
 
     # Comparing cards
+if dealer.hand_value < 21:
     for p in standed_players:
         if p.hand_value < dealer.hand_value:
             losing_players.append(p)
@@ -166,9 +170,10 @@ print(dealer.name + "'s Hand: ", end = "")
 print(dealer.show_hand(), end="")
 print(" Hand Value = " + str(dealer.hand_value))
 for p in pList:
-    print(player.name + "'s Hand: ", end="")
-    print(player.show_hand(), end="")
-    print(" Hand Value = " + str(player.hand_value))
+    print(p.name + "'s Hand: ", end="")
+    print(p.show_hand(), end="")
+    print(" Hand Value = " + str(p.hand_value))
+print("--------------------")
 
 # Results
 print("Winning Players: ")
