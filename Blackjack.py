@@ -108,7 +108,14 @@ tie_players = []
 
 for player in pList:
     while player.stand == False and player.win == False and player.bust == False:
-
+        print(player.name + "'s Hand: ", end="")
+        print(player.show_hand())
+        print("Hand Value: " + str(player.hand_value))
+        if player.hand_value == 21:
+            player.win = True
+            winning_players.append(player)
+            print(player.name + " has won")
+            continue
         choice = input(player.name + ": Hit / Stand\n")
         if choice == "Stand":
             player.stand = True
@@ -145,7 +152,7 @@ if len(standed_players) != 0:
         if dealer.hand_value == 21:
             print("Dealer has won")
             for p in standed_players:
-                if p.value < 21:
+                if p.hand_value < 21:
                     losing_players.append(p)
                 else:
                     tie_players.append(p)
